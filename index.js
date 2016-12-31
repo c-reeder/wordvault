@@ -7,14 +7,21 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 
-app.get('/db', function (request, response) {
+app.get('/passwords', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM words', function(err, result) {
+    client.query('SELECT * FROM words WHERE difficulty = \'Easy\' ORDER BY random() LIMIT 20;'
+	    , function(err, result) {
       done();
       if (err)
        { console.error(err); response.send("Error " + err); }
       else
-       { response.send(JSON.stringify(result.rows)); }
+       {
+	       var retrievedWords = [];
+	       for (var i = 0; i < result.rows.length; i++) {
+			retrievedWords.push(result.rows[i]["word"]);
+	       }
+	       response.send(JSON.stringify(retrievedWords));
+       }
     });
   });
 });
@@ -24,31 +31,6 @@ app.get('/', function (req, res) {
 	
 })
 
-app.get('/passwords', function (req, res) {
-	var wordArray = [
-		"cat", "sun", "cup",
-		"ghost", "flower", "pie",
-		"cow", "banana", "snowflake",
-		"bug", "book", "jar",
-		"snake", "light", "tree",
-		"lips", "apple", "slide",
-		"socks", "smile", "swing",
-		"coat", "shoe", "water",
-		"heart", "hat", "ocean",
-		"kite", "dog", "mouth",
-		"milk", "duck", "eyes",
-		"skateboard", "bird", "boy",
-		"apple", "person", "girl",
-		"mouse", "ball", "house",
-		"star", "nose", "bed",
-		"whale", "jacket", "shirt",
-		"hippo", "beach", "egg",
-		"face", "cookie", "cheese",
-		"ice", "cream", "cone drum circle",
-		"spoon", "worm", "spider web"
-	];
-	res.send(JSON.stringify(wordArray));
-})
 
 var server = app.listen(process.env.PORT, function () {
    var host = server.address().address
