@@ -1,8 +1,27 @@
 var express = require('express');
 var app = express();
+var pg = require('pg');
+pg.defaults.ssl = true;
+
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+
+app.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM words', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.send(JSON.stringify(result.rows)); }
+    });
+  });
+});
 
 app.get('/', function (req, res) {
 	res.send("Default Stuff");
+	
 })
 
 app.get('/passwords', function (req, res) {
