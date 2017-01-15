@@ -6,10 +6,10 @@ pg.defaults.ssl = true;
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-
+var connString = process.env.DATABASE_URL || "postgres://localhost/mylocaldb";
 
 app.get('/passwords', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+  pg.connect(connString, function(err, client, done) {
     client.query('SELECT * FROM words WHERE difficulty = \'Easy\' ORDER BY random() LIMIT 20;'
 	    , function(err, result) {
       done();
@@ -21,7 +21,7 @@ app.get('/passwords', function (request, response) {
 	       for (var i = 0; i < result.rows.length; i++) {
 			retrievedWords.push(result.rows[i]["word"]);
 	       }
-	       response.send("url: " + process.env.DATABASE_URL);
+	       response.send(JSON.stringify(retrievedWords));
        }
     });
   });
