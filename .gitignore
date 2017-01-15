@@ -14,4 +14,6 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/vim
+node_modules
+insertions.txt
+wordlist.txt
