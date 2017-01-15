@@ -21,7 +21,6 @@ app.get('/passwords', function (request, response) {
 	       for (var i = 0; i < result.rows.length; i++) {
 			retrievedWords.push(result.rows[i]["word"]);
 	       }
-	       response.send(JSON.stringify(retrievedWords));
 	       response.send("url: " + process.env.DATABASE_URL);
        }
     });
