@@ -7,6 +7,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 
+
 app.get('/passwords', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM words WHERE difficulty = \'Easy\' ORDER BY random() LIMIT 20;'
@@ -21,6 +22,7 @@ app.get('/passwords', function (request, response) {
 			retrievedWords.push(result.rows[i]["word"]);
 	       }
 	       response.send(JSON.stringify(retrievedWords));
+	       response.send("url: " + process.env.DATABASE_URL);
        }
     });
   });
