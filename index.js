@@ -12,7 +12,7 @@ app.get('/passwords/:difficulty', function (request, response) {
 	var diff = request.params.difficulty;
 	if (diff == "easy" || diff == "medium" || diff == "hard")
   pg.connect(connString, function(err, client, done) {
-    client.query('SELECT * FROM words WHERE difficulty = \'' + request.params.difficulty + '\' ORDER BY random() LIMIT 20;'
+    client.query('SELECT * FROM words WHERE difficulty = \'' + request.params.difficulty + '\' ORDER BY random() LIMIT 22;'
 	    , function(err, result) {
       done();
       if (err)
