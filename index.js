@@ -8,11 +8,17 @@ app.set('view engine', 'html');
 
 var connString = process.env.DATABASE_URL || "postgres://localhost/mylocaldb";
 
-app.get('/passwords/:difficulty', function (request, response) {
+app.get('/passwords/:language/:difficulty', function (request, response) {
+	var lang = request.params.language;
 	var diff = request.params.difficulty;
+
+	if (lang != "english" && lang != "español") {
+		response.send("Invalid Language!");
+	}
+
 	if (diff == "easy" || diff == "medium" || diff == "hard")
   pg.connect(connString, function(err, client, done) {
-    client.query('SELECT * FROM words WHERE difficulty = \'' + request.params.difficulty + '\' ORDER BY random() LIMIT 22;'
+    client.query('SELECT * FROM words WHERE language = \'' + lang + '\' AND difficulty = \'' + diff + '\' ORDER BY random() LIMIT 22;'
 	    , function(err, result) {
       done();
       if (err)
