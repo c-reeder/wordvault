@@ -15,25 +15,24 @@ app.get('/passwords/:language/:difficulty', function (request, response) {
 	if (lang != "english" && lang != "español") {
 		response.send("Invalid Language!");
 	}
-
-	if (diff == "easy" || diff == "medium" || diff == "hard")
-  pg.connect(connString, function(err, client, done) {
-    client.query('SELECT * FROM words WHERE language = \'' + lang + '\' AND difficulty = \'' + diff + '\' ORDER BY random() LIMIT 22;'
-	    , function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       {
-	       var retrievedWords = [];
-	       for (var i = 0; i < result.rows.length; i++) {
-			retrievedWords.push(result.rows[i]["word"]);
-	       }
-	       response.send(JSON.stringify(retrievedWords)); 
-       }
-    });
-  });
-	else
+	else if (diff == "easy" || diff == "medium" || diff == "hard") {
+		pg.connect(connString, function(err, client, done) {
+			client.query('SELECT * FROM words WHERE language = \'' + lang + '\' AND difficulty = \'' + diff + '\' ORDER BY random() LIMIT 22;'
+				, function(err, result) {
+					done();
+					if (err)
+					{ console.error(err); response.send("Error " + err); }
+					else
+					{
+						var retrievedWords = [];
+						for (var i = 0; i < result.rows.length; i++) {
+							retrievedWords.push(result.rows[i]["word"]);
+						}
+						response.send(JSON.stringify(retrievedWords)); 
+					}
+				});
+		});
+	} else
 		response.send("Invalid Difficulty!");
 });
 
