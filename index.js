@@ -12,7 +12,7 @@ app.get('/passwords/:language/:difficulty', function (request, response) {
 	var lang = request.params.language;
 	var diff = request.params.difficulty;
 
-	if (lang != "english" && lang != "español") {
+	if (lang != "english" && lang != "spanish") {
 		response.send("Invalid Language: \"" + lang + "\"");
 	}
 	else if (diff == "easy" || diff == "medium" || diff == "hard") {
