@@ -13,7 +13,7 @@ app.get('/passwords/:language/:difficulty', function (request, response) {
 	var diff = request.params.difficulty;
 
 	if (lang != "english" && lang != "español") {
-		response.send("Invalid Language!");
+		response.send("Invalid Language: \"" + lang + "\"");
 	}
 	else if (diff == "easy" || diff == "medium" || diff == "hard") {
 		pg.connect(connString, function(err, client, done) {
