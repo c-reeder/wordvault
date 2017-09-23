@@ -12,10 +12,10 @@ app.get('/passwords/:language/:difficulty', function (request, response) {
 	var lang = request.params.language;
 	var diff = request.params.difficulty;
 
-	if (lang != "english" && lang != "spanish") {
+	if (lang != "ENGLISH" && lang != "SPANISH") {
 		response.send("Invalid Language: \"" + lang + "\"");
 	}
-	else if (diff == "easy" || diff == "medium" || diff == "hard") {
+	else if (diff == "EASY" || diff == "MEDIUM" || diff == "HARD") {
 		pg.connect(connString, function(err, client, done) {
 			client.query('SELECT * FROM words WHERE language = \'' + lang + '\' AND difficulty = \'' + diff + '\' ORDER BY random() LIMIT 22;'
 				, function(err, result) {
