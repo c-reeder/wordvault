@@ -15,5 +15,17 @@ Session.vim
 tags
 
 node_modules
+node_modules/*
 insertions.txt
 wordlist.txt
+Palabras.ods
+combined_list.txt
+palabras1.txt
+palabras2.txt
+palabras3.txt
+palabras4.txt
+.env
+Complete Insertions.ods
+details.txt
+pullResults
+schema.txt

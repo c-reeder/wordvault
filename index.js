@@ -6,16 +6,16 @@ pg.defaults.ssl = true;
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-var connString = process.env.DATABASE_URL || "postgres://localhost/mylocaldb";
+var connString = process.env.DATABASE_URL || "postgres://localhost/wordvault";
 
 app.get('/passwords/:language/:difficulty', function (request, response) {
 	var lang = request.params.language;
 	var diff = request.params.difficulty;
 
-	if (lang != "ENGLISH" && lang != "SPANISH") {
+	if (lang != "English" && lang != "Spanish") {
 		response.send("Invalid Language: \"" + lang + "\"");
 	}
-	else if (diff == "EASY" || diff == "MEDIUM" || diff == "HARD") {
+	else if (diff == "easy" || diff == "medium" || diff == "hard") {
 		pg.connect(connString, function(err, client, done) {
 			client.query('SELECT * FROM words WHERE language = \'' + lang + '\' AND difficulty = \'' + diff + '\' ORDER BY random() LIMIT 22;'
 				, function(err, result) {
@@ -48,3 +48,10 @@ var server = app.listen(process.env.PORT, function () {
    
    console.log("wordvault app listening at http://%s:%s", host, port)
 })
+
+function sleep(time) {
+    var stop = new Date().getTime();
+    while(new Date().getTime() < stop + time) {
+        ;
+    }
+}
