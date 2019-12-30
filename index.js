@@ -8,7 +8,7 @@ app.set('view engine', 'html');
 
 var connString = process.env.DATABASE_URL || "postgres://localhost/wordvault";
 
-app.get('/passwords/:language/:difficulty', function (request, response) {
+app.get('/words/:language/:difficulty', function (request, response) {
 	var lang = request.params.language;
 	var diff = request.params.difficulty;
 
