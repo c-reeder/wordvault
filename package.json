@@ -4,7 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "4.x",
-    "pg": "6.1.2",
+    "pg": "7.17.0",
     "ejs": "2.5.5"
   }
 }
